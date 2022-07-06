@@ -1,0 +1,18 @@
+name: pset
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: cml_rum
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install -r requirements.txt
+          dvc repro
+
+          git fetch --prune
+
+          dvc metrics diff --show-md main > report.md
+          cml-send-comment report.md
