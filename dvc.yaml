@@ -1,0 +1,22 @@
+stages:
+  getdata:
+    cmd: python src/data/make_dataset.py
+    deps:
+    - src/data/make_dataset.py
+    outs:
+    - data/raw/data_raw.csv
+  process:
+    cmd: python src/features/build_features.py
+    deps:
+    - src/features/build_features.py
+    - data/raw/data_raw.csv
+    outs:
+    - data/processed/data_processed.csv
+  train:
+    cmd: python src/models/train_model.py
+    deps:
+    - src/models/train_model.py
+    - data/processed/data_processed.csv
+    metrics:
+    - metrics.json:
+        cache: false
