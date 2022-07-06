@@ -16,3 +16,4 @@ jobs:
 
           dvc metrics diff --show-md main > report.md
 
+          cml send-comment report.md
